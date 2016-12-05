@@ -121,9 +121,10 @@ class CMreserveJob(object):
                         script.write(ln)
                         itr += 1
             if report:
-                script.write('python {}\n'.format(
+                script.write('python {} {}\n'.format(
                     os.path.join(self._test_framework, 'scripts',
-                                 'capture_container_dashboard.py')
+                                 'capture_container_dashboard.py'),
+                    self._log_dir
                     ))
 
         exec_cmd('bash {}'.format(test_script_path))
