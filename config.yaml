@@ -1,0 +1,14 @@
+---
+reports:
+  daily:
+    receivers:
+      [gshefer@redhat.com] # cm-team@redhat.com, srevivo@redhat.com
+    message:
+      subject: CM-Stable setup - daily report
+      body: "Hello,
+        
+Attached: screenshot of Container dashboard.
+"
+
+testing_framework:
+  path: /home/gshefer/workspace/integration_tests
