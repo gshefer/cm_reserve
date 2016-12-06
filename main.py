@@ -69,8 +69,8 @@ class CMreserveJob(object):
                                      name=os.path.basename(fp))
                 msg.attach(data)
 
-            smtpObj = smtplib.SMTP('localhost')
-            smtpObj.sendmail(self._email_addr, receivers, msg.as_string())
+        smtpObj = smtplib.SMTP('localhost')
+        smtpObj.sendmail(self._email_addr, receivers, msg.as_string())
 
     def update_testing_framework(self):
 
