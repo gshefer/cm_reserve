@@ -15,8 +15,8 @@ def save_screenshot_entire_overview(path):
     for _ in xrange(5):
         AC.perform()
     time.sleep(2)
-    cap1p, cap2p = (os.path.basename(path)+'_0.png',
-                    os.path.basename(path)+'_1.png')
+    base = os.path.splitext(path)[0]
+    cap1p, cap2p = (base+'_0.png', base+'_1.png')
     scrn, _ = sel.take_screenshot()
     with open(cap1p, 'wb') as f:
         f.write(base64.b64decode(scrn))
