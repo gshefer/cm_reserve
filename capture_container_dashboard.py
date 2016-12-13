@@ -12,7 +12,7 @@ def save_screenshot_entire_overview(path):
 
     AC = ActionChains(browser())
     AC.send_keys(keys.Keys.CONTROL, keys.Keys.ADD)
-    for _ in xrange(5):
+    for _ in xrange(3):
         AC.perform()
     time.sleep(2)
     base = os.path.splitext(path)[0]

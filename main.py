@@ -58,7 +58,7 @@ class CMreserveJob(object):
 
         msg.attach(MIMEText(Config['reports']['daily']['message']['body']))
 
-        for ii, p in enumerate(os.listdir(self._log_dir)):
+        for ii, p in enumerate(sorted(os.listdir(self._log_dir))):
 
             fp = os.path.join(self._log_dir, p)
             ext = os.path.splitext(fp)[1]
