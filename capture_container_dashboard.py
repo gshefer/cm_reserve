@@ -2,6 +2,31 @@ from cfme.fixtures import pytest_selenium as sel
 import base64
 import argparse
 import os
+from utils.browser import browser
+from selenium.webdriver.common import keys
+from selenium.webdriver.common.action_chains import ActionChains
+import time
+
+
+def save_screenshot_entire_overview(path):
+
+    AC = ActionChains(browser())
+    AC.send_keys(keys.Keys.CONTROL, keys.Keys.ADD)
+    for _ in xrange(5):
+        AC.perform()
+    time.sleep(2)
+    cap1p, cap2p = (os.path.basename(path)+'_0.png',
+                    os.path.basename(path)+'_1.png')
+    scrn, _ = sel.take_screenshot()
+    with open(cap1p, 'wb') as f:
+        f.write(base64.b64decode(scrn))
+    elem = sel.element('//div[contains(@head-title,'
+                       ' "Pod Creation and Deletion Trends")]')
+    sel.move_to_element(elem)
+    time.sleep(2)
+    scrn, _ = sel.take_screenshot()
+    with open(cap2p, 'wb') as f:
+        f.write(base64.b64decode(scrn))
 
 
 def main():
@@ -21,9 +46,7 @@ def main():
 
     sel.force_navigate('container_dashboard')
     ss_path = '{}/container_dashboard.png'.format(args.log_dir_path)
-    scrn, _ = sel.take_screenshot()
-    with open(ss_path, 'wb') as f:
-        f.write(base64.b64decode(scrn))
+    save_screenshot_entire_overview(ss_path)
 
 if __name__ == '__main__':
     main()

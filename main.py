@@ -58,15 +58,20 @@ class CMreserveJob(object):
 
         msg.attach(MIMEText(Config['reports']['daily']['message']['body']))
 
-        for p in os.listdir(self._log_dir):
+        for ii, p in enumerate(os.listdir(self._log_dir)):
 
             fp = os.path.join(self._log_dir, p)
             ext = os.path.splitext(fp)[1]
 
             if ext in ('.png', '.jpeg', '.jpg'):
+                cid = 'im{}'.format(ii)
+                msgText = MIMEText('<b><img src="cid:{}"><br />'
+                                   .format(cid), 'html')
+                msg.attach(msgText)
                 with open(fp, 'rb') as fl:
                     data = MIMEImage(fl.read(), ext,
                                      name=os.path.basename(fp))
+                data.add_header('Content-ID', '<{}>'.format(cid))
                 msg.attach(data)
 
         smtpObj = smtplib.SMTP('localhost')
@@ -108,7 +113,6 @@ class CMreserveJob(object):
 
         with open(test_script_path, 'w') as script:
             script.write('cd {}\n'.format(self._test_framework))
-
             if tests:
 
                 itr = 0

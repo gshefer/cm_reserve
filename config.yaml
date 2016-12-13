@@ -2,13 +2,25 @@
 reports:
   daily:
     receivers:
-      [gshefer@redhat.com] # cm-team@redhat.com, srevivo@redhat.com
+      [gshefer@redhat.com] #[cm-team@redhat.com, srevivo@redhat.com]
     message:
       subject: CM-Stable setup - daily report
-      body: "Hello,
+      body: "Hello,\n
         
-Attached: screenshot of Container dashboard.
+Attached: screenshot of Container dashboard.\n
+
+Setup:\n
+
+  scheduler-vm - 10.35.98.85\n
+  CFME - https://10.8.198.84\n
+  [Openshift]\n
+  cm-reserve1-master1.rhq.lab.eng.bos.redhat.com - 10.16.4.176\n
+  cm-reserve2-master2.rhq.lab.eng.bos.redhat.com - 10.16.4.175\n
+  cm-reserve3-lb.rhq.lab.eng.bos.redhat.com - 10.16.4.148\n
+  cm-reserve4-node1.rhq.lab.eng.bos.redhat.com   - 10.16.4.149\n
+  cm-reserve5-node2.rhq.lab.eng.bos.redhat.com   - 10.16.4.150\n
+
 "
 
 testing_framework:
-  path: /home/gshefer/workspace/integration_tests
+  path: /root/integration_tests
