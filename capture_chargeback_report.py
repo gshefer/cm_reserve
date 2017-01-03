@@ -37,7 +37,7 @@ def main():
         raise Exception('No such directory: {}'.format(args.log_dir_path))
 
     path_to_report = ['My Company (All EVM Groups)',
-                      'Custom', 'Chargeback1-FixedRate']
+                      'Custom', 'Chargeback1-VariableRate']
     run_at = CannedSavedReport.queue_canned_report(path_to_report)
     report = CannedSavedReport(path_to_report, run_at)
     report.navigate()
