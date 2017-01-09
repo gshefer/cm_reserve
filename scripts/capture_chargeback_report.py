@@ -1,26 +1,11 @@
-from cfme.fixtures import pytest_selenium as sel
-import base64
 import argparse
 import os
-from utils.browser import browser
-from selenium.webdriver.common import keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time
+from utils.browser import WithZoom
 from cfme.intelligence.reports.reports import CannedSavedReport
+from inter_utils import save_screenshot
 
 
-def save_screenshot(path):
-
-    AC = ActionChains(browser())
-    AC.send_keys(keys.Keys.CONTROL, keys.Keys.SUBTRACT)
-    for _ in xrange(3):
-        AC.perform()
-    time.sleep(2)
-    scrn, _ = sel.take_screenshot()
-    with open(path, 'wb') as f:
-        f.write(base64.b64decode(scrn))
-
-
+@WithZoom(-3)
 def main():
 
     # Capture a screenshot of the produced chargeback1_fixedrate report.

@@ -26,6 +26,7 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def exec_cmd(cmd):
+    print cmd
     out = commands.getoutput(cmd)
     print out
     logging.info(out)
@@ -77,22 +78,21 @@ class CMreserveJob(object):
         smtpObj = smtplib.SMTP('localhost')
         smtpObj.sendmail(self._email_addr, receivers, msg.as_string())
 
-    def _all_capture_scripts_paths(self):
-        cwd = os.getcwd()
-        return [os.path.join(cwd, capture_script)
-                for capture_script in os.listdir(cwd)
-                if capture_script.startswith('capture') and
-                capture_script.endswith('.py')]
-
     def update_testing_framework(self):
 
-        exec_cmd('cd {0}\ngit checkout master\ngit pull\n'.format(
-                self._test_framework))
+        os.system('\n'.join([
+                    'cd {}'.format(self._test_framework),
+                    'git checkout master',
+                    'git pull origin master',
+                    'pip install -Ur requirements.txt'
+                    ])+'\n'
+                  )
 
-        for capture_script in self._all_capture_scripts_paths():
-            shutil.copy(capture_script,
-                        os.path.join(self._test_framework, 'scripts',
-                                     os.path.basename(capture_script)))
+        target_scripts_path = os.path.join(self._test_framework,
+                                           'scripts/scripts')
+        if os.path.isdir(target_scripts_path):
+            shutil.rmtree(target_scripts_path)
+        shutil.copytree('scripts', target_scripts_path)
 
     def _init_logs(self):
 
@@ -133,12 +133,15 @@ class CMreserveJob(object):
                         script.write(ln)
                         itr += 1
             if report:
-                for capture_script in self._all_capture_scripts_paths():
-                    script.write('python {} {}\n'.format(
-                        os.path.join(self._test_framework, 'scripts',
-                                     capture_script),
-                        self._log_dir
-                        ))
+                for capture_script in os.listdir(os.path.join(
+                    self._test_framework, 'scripts/scripts')
+                                                 ):
+                        script.write('python {} {}\n'.format(
+                            os.path.join(self._test_framework,
+                                         'scripts/scripts',
+                                         capture_script),
+                            self._log_dir
+                            ))
 
         exec_cmd('bash {}'.format(test_script_path))
         os.remove(test_script_path)

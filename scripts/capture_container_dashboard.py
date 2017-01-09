@@ -1,34 +1,22 @@
-from cfme.fixtures import pytest_selenium as sel
-import base64
 import argparse
 import os
-from utils.browser import browser
-from selenium.webdriver.common import keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time
+from cfme.fixtures import pytest_selenium as sel
+from utils.browser import WithZoom
+from inter_utils import save_screenshot
 
 
 def save_screenshot_entire_overview(path):
 
-    AC = ActionChains(browser())
-    AC.send_keys(keys.Keys.CONTROL, keys.Keys.ADD)
-    for _ in xrange(3):
-        AC.perform()
-    time.sleep(2)
     base = os.path.splitext(path)[0]
     cap1p, cap2p = (base+'_0.png', base+'_1.png')
-    scrn, _ = sel.take_screenshot()
-    with open(cap1p, 'wb') as f:
-        f.write(base64.b64decode(scrn))
+    save_screenshot(cap1p)
     elem = sel.element('//div[contains(@head-title,'
                        ' "Pod Creation and Deletion Trends")]')
     sel.move_to_element(elem)
-    time.sleep(2)
-    scrn, _ = sel.take_screenshot()
-    with open(cap2p, 'wb') as f:
-        f.write(base64.b64decode(scrn))
+    save_screenshot(cap2p)
 
 
+@WithZoom(2)
 def main():
 
     # Capture a screenshot of container dashboard (Containers->Overview)
