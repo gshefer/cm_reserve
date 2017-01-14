@@ -34,6 +34,8 @@ def exec_cmd(cmd):
 
 class CMreserveJob(object):
 
+    IMAGE_EXTS = ('.png', '.jpeg', '.jpg')
+
     def __init__(self):
 
         self._email_addr = 'gshefer@redhat.com'
@@ -48,6 +50,10 @@ class CMreserveJob(object):
         if not os.path.exists(self._log_dir):
             raise Exception('Log directory doesn\'t exist: {}'.format(
                             self._log_dir))
+        elif not filter(lambda p: os.path.splitext(p)[-1].lower()
+                        in self.IMAGE_EXTS,
+                        os.listdir(self._log_dir)):
+            raise Exception('Could not find images for report')
 
         receivers = Config['reports']['daily']['receivers']
 
@@ -64,7 +70,7 @@ class CMreserveJob(object):
             fp = os.path.join(self._log_dir, p)
             ext = os.path.splitext(fp)[1]
 
-            if ext in ('.png', '.jpeg', '.jpg'):
+            if ext in self.IMAGE_EXTS:
                 cid = 'im{}'.format(ii)
                 msgText = MIMEText('<b><img src="cid:{}"><br />'
                                    .format(cid), 'html')
