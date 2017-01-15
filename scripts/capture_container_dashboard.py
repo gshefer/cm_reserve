@@ -1,7 +1,9 @@
 import argparse
 import os
 from cfme.fixtures import pytest_selenium as sel
+from cfme.containers.overview import ContainersOverview
 from utils.browser import WithZoom
+from utils.appliance.implementations.ui import navigate_to
 from inter_utils import save_screenshot
 
 
@@ -32,7 +34,7 @@ def main():
     if not os.path.isdir(args.log_dir_path):
         raise Exception('No such directory: {}'.format(args.log_dir_path))
 
-    sel.force_navigate('container_dashboard')
+    navigate_to(ContainersOverview, 'All')
     ss_path = '{}/container_dashboard.png'.format(args.log_dir_path)
     save_screenshot_entire_overview(ss_path)
 
