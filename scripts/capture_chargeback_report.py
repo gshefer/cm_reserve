@@ -5,7 +5,7 @@ from cfme.intelligence.reports.reports import CannedSavedReport
 from inter_utils import save_screenshot
 
 
-@WithZoom(-3)
+@WithZoom(-2)
 def main():
 
     # Capture a screenshot of the produced chargeback1_fixedrate report.
